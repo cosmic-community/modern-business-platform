@@ -1,4 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
+import { Feature } from './types'
 
 export const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG as string,
@@ -39,8 +40,8 @@ export async function getFeatures() {
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1)
     
-    // Manual sorting by order field
-    return response.objects.sort((a, b) => {
+    // Manual sorting by order field with explicit types
+    return response.objects.sort((a: Feature, b: Feature) => {
       const orderA = a.metadata?.order || 0
       const orderB = b.metadata?.order || 0
       return orderA - orderB
